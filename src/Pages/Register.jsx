@@ -5,7 +5,7 @@ function Register()
     return(
     
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-blue-600 p-6">
-        <form className="bg-white shadow-lg rounded-2xl p-8 max-w-sm w-full animate-fadeIn">
+        <form className="bg-white shadow-lg rounded-2xl p-8 max-w-sm w-full animate-fadeIn" url="/register" action="post">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Register to Confideo IT Services</h2>
           <div className="flex flex-col space-y-4">
             <input 
