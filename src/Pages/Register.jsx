@@ -20,7 +20,7 @@ function Register() {
         }
 
         try {
-            const response = await fetch(`${API_BASE_URL}/register`, {
+            const response = await fetch(`http://52.66.103.137:5001/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
