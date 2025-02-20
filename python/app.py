@@ -4,7 +4,8 @@ import mysql.connector
 import bcrypt
 
 app = Flask(__name__)
-CORS(app,origins=["https://13.232.100.187:3000"])  # Allow React frontend to communicate with Flask backend
+#CORS(app,origins=["https://13.232.100.187:3000"])  # Allow React frontend to communicate with Flask backend
+CORS(app, resources={r"/*": {"origins": ["https://13.232.100.187:3000"]}})
 
 # MySQL Database Connection
 db = mysql.connector.connect(
@@ -26,17 +27,15 @@ cursor = db.cursor()
 #     return jsonify({"message": "User registered successfully"}), 201
 
 
-@app.route('/register', methods=['POST', 'GET'])
+@app.route('/register', methods=['POST'])
 def register():
-    if request.method == 'POST':
-        # Ensure request contains JSON
-        if not request.is_json:
-            return jsonify({"error": "Unsupported format, expected JSON"}), 400
+    # ✅ Ensure the request contains JSON
+    if not request.is_json:
+        return jsonify({"error": "Unsupported format, expected JSON"}), 415
 
-        data = request.get_json()
-        if not data:
-            return jsonify({"error": "Invalid JSON data"}), 400
-
+    try:
+        data = request.get_json(force=True)  # ✅ Force JSON parsing
+        print(data)
         full_name = data.get("full_name")
         email = data.get("email")
         password = data.get("password")
@@ -46,7 +45,8 @@ def register():
 
         return jsonify({"message": "User registered successfully!"}), 201
 
-    return jsonify({"message": "Use POST to register"}), 200
+    except Exception as e:
+        return jsonify({"error": f"Invalid JSON data: {str(e)}"}), 400
 
 @app.route('/', methods=['GET'])
 def home():
@@ -62,5 +62,6 @@ def login():
     if user and bcrypt.checkpw(data['password'].encode('utf-8'), user[3].encode('utf-8')):
         return jsonify({"message": "Login successful"}), 200
     return jsonify({"error": "Invalid credentials"}), 401
+
 #if __name__ == '__main__':
  #   app.run(host='0.0.0.0', port=5001)
