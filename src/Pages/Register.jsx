@@ -20,7 +20,7 @@ function Register() {
         }
 
         try {
-            const response = await fetch(`http://65.0.106.69:5000/register`, {
+            const response = await fetch(`http://65.0.106.69:5001/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
