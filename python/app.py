@@ -15,17 +15,38 @@ db = mysql.connector.connect(
 )
 cursor = db.cursor()
 
-# User Registration API
-@app.route('/register', methods=['POST','GET'])
+# # User Registration API
+# @app.route('/register', methods=['POST','GET'])
+# def register():
+#     data = request.json
+#     hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
+#     cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
+#                    (data['name'], data['email'], hashed_password))
+#     db.commit()
+#     return jsonify({"message": "User registered successfully"}), 201
+
+
+@app.route('/register', methods=['POST', 'GET'])
 def register():
-    data = request.json
-    hashed_password = bcrypt.hashpw(data['password'].encode('utf-8'), bcrypt.gensalt())
-    cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
-                   (data['name'], data['email'], hashed_password))
-    db.commit()
-    return jsonify({"message": "User registered successfully"}), 201
+    if request.method == 'POST':
+        # Ensure request contains JSON
+        if not request.is_json:
+            return jsonify({"error": "Unsupported format, expected JSON"}), 400
 
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid JSON data"}), 400
 
+        full_name = data.get("full_name")
+        email = data.get("email")
+        password = data.get("password")
+
+        if not full_name or not email or not password:
+            return jsonify({"error": "Missing required fields"}), 400
+
+        return jsonify({"message": "User registered successfully!"}), 201
+
+    return jsonify({"message": "Use POST to register"}), 200
 
 @app.route('/', methods=['GET'])
 def home():
