@@ -12,7 +12,7 @@ function Login() {
         e.preventDefault(); // Prevent form reload
 
         try {
-            const response = await fetch(`http://65.0.106.69:5001/login`, {
+            const response = await fetch(`http://127.0.0.1:5000/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -61,7 +61,7 @@ function Login() {
                     Login
                 </button>
                 <p className="text-center mt-4 text-gray-600">
-                    Don't have an account? <Link to="/register" className="text-blue-500 hover:underline">Register</Link>
+                    Don't have an account? <Link to="/" className="text-blue-500 hover:underline">Register</Link>
                 </p>
             </form>
         </div>

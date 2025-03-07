@@ -20,7 +20,7 @@ function Register() {
         }
 
         try {
-            const response = await fetch(`http://65.0.106.69:5001/register`, {
+            const response = await fetch(`http://127.0.0.1:5000/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -32,7 +32,7 @@ function Register() {
 
             if (response.ok) {
                 setSuccess("Registration successful! Redirecting to login...");
-                setTimeout(() => navigate("/login"), 2000); // Redirect after 2 seconds
+                setTimeout(() => navigate("/login"), 200); // Redirect after 2 seconds
             } else {
                 setError(data.message); // Show error message from backend
             }
@@ -40,6 +40,9 @@ function Register() {
             setError("Registration failed. Please try again.");
         }
     };
+    const handlelogin = () => {
+        return navigate("/login")
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-500 to-blue-600 p-6">
@@ -82,6 +85,12 @@ function Register() {
                     className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg font-semibold transition duration-300"
                 >
                     Register
+                </button>
+                <button
+                    type="submit" onClick={()=> handlelogin()}
+                    className="mt-6 w-full bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg font-semibold transition duration-300"
+                >
+                    Login
                 </button>
             </form>
         </div>
